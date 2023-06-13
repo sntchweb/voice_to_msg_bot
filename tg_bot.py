@@ -18,23 +18,28 @@ file_handler = logging.FileHandler(
     mode='a',
     encoding='utf-8'
 )
-formatter = logging.Formatter('<%(asctime)s> [%(levelname)s] %(message)s')
+formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] => %(message)s')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
 LANGUAGE = 'ru_RU'
 BOT = telebot.TeleBot(os.getenv('BOT_TOKEN'))
-VOICE_MSG_ERROR = 'Голосовое сообщние не распознано, попробуйте еще раз.'
-SUCCESS_CONVERT_MSG = 'Голосовое сообщение конвертировано успешно'
-FAIL_CONVERT_MSG = 'Ошибка при конвертации файла'
-FAIL_DOWNLOAD_MSG = 'Ошибка при загрузке голосового сообщения'
+VOICE_MSG_ERROR = 'Голосовое сообщние не распознано, попробуйте еще раз...'
+SUCCESS_CONVERT_MSG = 'Голосовое сообщение конвертировано успешно!'
+FAIL_CONVERT_MSG = 'Ошибка при конвертации файла!'
+FAIL_DOWNLOAD_MSG = 'Ошибка при загрузке голосового сообщения!'
 SEND_MSG_ERROR = 'Ошибка при отправке сообщения в Telegram!'
 SUCCESS_SENT_MSG = 'Бот успешно отправил сообщение в Telegram!'
-SUCCESS_RECOGNIZE_MSG = 'Сообщение распознано успешно.'
-SUCCESS_DOWNLOAD_MSG = 'Сообщение успешно скачано'
+SUCCESS_RECOGNIZE_MSG = 'Голосовое сообщение распознано успешно.'
+SUCCESS_DOWNLOAD_MSG = 'Голосовое сообщение успешно скачано'
 
 
 def google_recognize(wav_filename: str) -> str:
+    """
+    Функция конвертации .wav файла в текст.
+    -принимает название(тип str) файла для конвертации.
+    -возвращает текст(тип str).
+    """
     recognize = sr.Recognizer()
     with sr.AudioFile(wav_filename) as source:
         audio_to_text = recognize.listen(source)
@@ -48,11 +53,15 @@ def google_recognize(wav_filename: str) -> str:
             logger.warning(VOICE_MSG_ERROR)
             return VOICE_MSG_ERROR
         else:
-            logger.debug(SUCCESS_RECOGNIZE_MSG)
+            logger.info(SUCCESS_RECOGNIZE_MSG)
 
 
 def download_file(message: dict, ogg_filename: str) -> None:
-    """Функция скачивания голосового сообщения."""
+    """
+    Функция скачивания голосового сообщения.
+    -принимает сообщение формата dict и сконвертированное
+    название файла(тип str) для скачиавания.
+    """
     try:
         file_info = BOT.get_file(message.voice.file_id)
         download_file = BOT.download_file(file_info.file_path)
@@ -61,33 +70,43 @@ def download_file(message: dict, ogg_filename: str) -> None:
     except Exception as error:
         logger.critical(f'{FAIL_DOWNLOAD_MSG}: {error}')
     else:
-        logger.debug(SUCCESS_DOWNLOAD_MSG)
+        logger.info(SUCCESS_DOWNLOAD_MSG)
 
 
 def convert_file(ogg_filename: str, wav_filename: str) -> None:
-    """Функция конвертирования гс из .ogg в .wav формат."""
+    """
+    Функция конвертирования голосового сообщенгия из .ogg в .wav формат.
+    -принимает название файла(тип str) который нужно конвертировать и
+    название файла(тип str) для результата конвертации.
+    """
     try:
         data, samplerate = sf.read(ogg_filename)
         sf.write(wav_filename, data, samplerate)
     except Exception as error:
         logger.error(f'{FAIL_CONVERT_MSG}: {error}')
     else:
-        logger.debug(SUCCESS_CONVERT_MSG)
+        logger.info(SUCCESS_CONVERT_MSG)
 
 
 def send_message(message: dict, text: str) -> None:
-    """Функция отправки сообщения в телеграм."""
+    """
+    Функция отправки сообщения в телеграм.
+    -принимает сообщение формата dict и само сообщение,
+    на которое необходимо ответить.
+    """
     try:
         BOT.reply_to(message, text)
     except Exception:
         logger.error(SEND_MSG_ERROR)
         raise SendMessageError(SEND_MSG_ERROR)
     else:
-        logger.debug(SUCCESS_SENT_MSG)
+        logger.info(SUCCESS_SENT_MSG)
 
 
 @BOT.message_handler(content_types=['voice'])
 def voice_processing(message):
+    """Основная логика."""
+
     filename = str(uuid.uuid4())
     ogg_filename, wav_filename = filename + '.ogg', filename + '.wav'
     try:
