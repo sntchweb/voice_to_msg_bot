@@ -25,13 +25,13 @@ logger.addHandler(file_handler)
 LANGUAGE = 'ru_RU'
 BOT = telebot.TeleBot(os.getenv('BOT_TOKEN'))
 VOICE_MSG_ERROR = 'Голосовое сообщние не распознано, попробуйте еще раз...'
-SUCCESS_CONVERT_MSG = 'Голосовое сообщение конвертировано успешно!'
+SUCCESS_CONVERT_MSG = 'Успешная конвертация сообщения.'
 FAIL_CONVERT_MSG = 'Ошибка при конвертации файла!'
 FAIL_DOWNLOAD_MSG = 'Ошибка при загрузке голосового сообщения!'
 SEND_MSG_ERROR = 'Ошибка при отправке сообщения в Telegram!'
-SUCCESS_SENT_MSG = 'Бот успешно отправил сообщение в Telegram!'
+SUCCESS_SENT_MSG = 'Успешная отправка сообщения в Telegram.'
 SUCCESS_RECOGNIZE_MSG = 'Голосовое сообщение распознано успешно.'
-SUCCESS_DOWNLOAD_MSG = 'Голосовое сообщение успешно скачано'
+SUCCESS_DOWNLOAD_MSG = 'Голосовое сообщение успешно скачано.'
 
 
 def google_recognize(wav_filename: str) -> str:
@@ -48,12 +48,12 @@ def google_recognize(wav_filename: str) -> str:
                 audio_to_text,
                 language=LANGUAGE
             )
-            return message_text
         except Exception:
             logger.warning(VOICE_MSG_ERROR)
             return VOICE_MSG_ERROR
         else:
             logger.info(SUCCESS_RECOGNIZE_MSG)
+            return message_text
 
 
 def download_file(message: dict, ogg_filename: str) -> None:
@@ -104,7 +104,7 @@ def send_message(message: dict, text: str) -> None:
 
 
 @BOT.message_handler(content_types=['voice'])
-def voice_processing(message):
+def voice_processing(message: dict):
     """Основная логика."""
 
     filename = str(uuid.uuid4())
