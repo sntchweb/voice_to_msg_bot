@@ -21,3 +21,5 @@ voice_to_msg_bot представляет собой `телеграм бота`
 ```
 Подгружает переменные окружения из .env файла.
 ```
+
+Если ошибка soundfile - python -m pip install --force-reinstall soundfile
