@@ -1,25 +1,36 @@
 # voice_to_msg_bot
 
-voice_to_msg_bot представляет собой `телеграм бота` который позволяет конвертировать голосовые сообщения в текст.
+`voice_to_msg_bot` представляет собой `телеграм бота` который позволяет конвертировать голосовые сообщения в текст.
 Бот позволяет конвертировать в текст не только сообщения отправленные ему напрямую, но также и пересланные сообщения.
 
-## Используемые библиотеки:
+## Стек:
 
-- **Telebot**
+**Telebot**, **Soundfile**, **Speech_recognition**, **Dotenv**
 
-- **Soundfile**
+## Как запустить проект:
+Клонировать репозиторий:
 ```
-Конвертирует формат .ogg в .wav для дальнейшего распознавания.
+git clone git@github.com:sntchweb/hw05_final.git
 ```
-
-- **Speech_recognition**
+Cоздать и активировать виртуальное окружение:
 ```
-Конвертирует звуковой файл формата .wav в текст.
+py -m venv env
 ```
-
-- **Dotenv**
 ```
-Подгружает переменные окружения из .env файла.
+source venv/bin/activate
 ```
-
-Если ошибка soundfile - python -m pip install --force-reinstall soundfile
+Установить зависимости из файла requirements.txt:
+```
+py -m pip install --upgrade pip
+```
+```
+pip install -r requirements.txt
+```
+Запустить бота:
+```
+py tg_bot.py
+```
+Если ошибка soundfile:
+```
+py -m pip install --force-reinstall soundfile
+```
