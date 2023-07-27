@@ -11,7 +11,7 @@
 ## Как запустить проект:
 Клонировать репозиторий:
 ```
-git clone git@github.com:sntchweb/hw05_final.git
+git clone git@github.com:sntchweb/voice_to_msg_bot.git
 ```
 Cоздать и активировать виртуальное окружение:
 ```
