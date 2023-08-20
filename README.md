@@ -39,5 +39,5 @@ py -m pip install --force-reinstall soundfile
 - Soundfile
 - Speech_recognition
 - Dotenv
-## Автор 
+## Автор:
 Лашин Артём
