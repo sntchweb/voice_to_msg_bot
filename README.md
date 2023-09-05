@@ -16,6 +16,10 @@ py -m venv env
 ```
 source venv/bin/activate
 ```
+Создать файл `.env` и поместить в него ваш BOT_TOKEN, например:
+```
+BOT_TOKEN = '6240622552:AZGOLU287dCTBwDdntv3yzQIoyqUODD-YZap'
+```
 Установить зависимости из файла requirements.txt:
 ```
 py -m pip install --upgrade pip
