@@ -125,10 +125,11 @@ async def voice_processing(message: types.Message):
         await convert_voice_file(ogg_filename, wav_filename)
         text = await recognize_voice_message(wav_filename)
         await send_message(message, text)
-        os.remove(ogg_filename)
-        os.remove(wav_filename)
     except Exception as error:
         logger.critical(f'{ERROR_MSG}: {error}')
+    else:
+        os.remove(ogg_filename)
+        os.remove(wav_filename)
     finally:
         logger.debug('-' * 50)
 

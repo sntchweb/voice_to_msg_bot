@@ -19,7 +19,7 @@ git clone git@github.com:sntchweb/voice_to_msg_bot.git
 python -3.9 -m venv venv
 source venv/Scripts/activate
 ```
--Установить зависимости из файла requirements.txt:
+- Установить зависимости из файла requirements.txt:
 ```bash
 pip install -r requirements.txt
 ```
