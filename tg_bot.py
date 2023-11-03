@@ -34,10 +34,9 @@ SEND_MSG_ERROR = 'Ошибка при отправке сообщения в Tel
 SUCCESS_SENT_MSG = 'Успешная отправка сообщения в Telegram.'
 SUCCESS_RECOGNIZE_MSG = 'Голосовое сообщение распознано успешно.'
 SUCCESS_DOWNLOAD_MSG = 'Голосовое сообщение успешно скачано.'
-API_TOKEN = os.getenv('BOT_TOKEN')
 LANGUAGE = 'ru-RU'
 
-bot = Bot(token=API_TOKEN)
+bot = Bot(token=os.getenv('BOT_TOKEN'))
 dp = Dispatcher(bot)
 logger = logging.getLogger(__name__)
 
